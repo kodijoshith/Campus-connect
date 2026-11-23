@@ -15,6 +15,17 @@ app = Flask(__name__)
 app.config["JSON_SORT_KEYS"] = False
 
 
+@app.after_request
+def add_cors_headers(response):
+    """Allow browser clients from any origin to call this public API."""
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = request.headers.get(
+        "Access-Control-Request-Headers", "Content-Type, Authorization, Accept"
+    )
+    return response
+
+
 @lru_cache(maxsize=1)
 def get_supabase() -> Client:
     url = os.getenv("SUPABASE_URL")
