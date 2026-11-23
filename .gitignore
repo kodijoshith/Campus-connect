@@ -1,0 +1,10 @@
+# Local secrets and development environment
+backend/.env
+backend/venv/
+backend/.agents/
+backend/.claude/
+backend/skills-lock.json
+
+# Python artifacts
+__pycache__/
+*.py[cod]
