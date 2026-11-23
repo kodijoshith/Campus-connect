@@ -3,14 +3,15 @@
 Flask API backed by Supabase, following `apiendpoint.png` and `database.png`.
 The database fields match the diagram: users, events, and registrations.
 
-## Run it
+## Run locally
 
 1. In the Supabase SQL Editor, run [`schema.sql`](schema.sql).
 2. Copy `.env.example` to `.env` and set `SUPABASE_URL` and
    `SUPABASE_PUBLISHABLE_KEY` from your Supabase project.
-3. Install dependencies and start Flask:
+3. Install dependencies and start the development server:
 
    ```powershell
+   python -m venv venv
    .\venv\Scripts\Activate.ps1
    pip install -r requirements.txt
    python app.py
@@ -19,6 +20,24 @@ The database fields match the diagram: users, events, and registrations.
 The API listens on `http://localhost:5000`. Keep `.env` private. The server
 uses only the publishable key; do not put a Supabase secret/service-role key in
 this app's environment.
+
+## Deploy to Render
+
+This folder includes `render.yaml` for a Render Blueprint deployment. Push the
+backend repository to GitHub, then in Render choose **New + → Blueprint** and
+select the repository. Render reads the build command, Gunicorn start command,
+health check, and environment variable names from the Blueprint.
+
+Set `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` in the Render service's
+Environment settings. Use the values from your Supabase project; do not commit
+these values to Git. The `/` health check returns a small JSON status response.
+
+If creating a Web Service manually instead, set:
+
+- Runtime: Python
+- Build command: `pip install -r requirements.txt`
+- Start command: `gunicorn app:app --bind 0.0.0.0:$PORT`
+- Health check path: `/`
 
 ## Endpoints
 

@@ -1,0 +1,10 @@
+# Local secrets and development environment
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
